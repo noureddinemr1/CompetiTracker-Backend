@@ -1,0 +1,333 @@
+2025-02-21 22:11:46,598 - scrapy.utils.log - INFO - Scrapy 2.12.0 started (bot: scrapybot)
+2025-02-21 22:11:46,620 - scrapy.utils.log - INFO - Versions: lxml 5.3.1.0, libxml2 2.11.7, cssselect 1.2.0, parsel 1.10.0, w3lib 2.3.1, Twisted 24.11.0, Python 3.9.5 (tags/v3.9.5:0a7dcbd, May  3 2021, 17:27:52) [MSC v.1928 64 bit (AMD64)], pyOpenSSL 25.0.0 (OpenSSL 3.4.1 11 Feb 2025), cryptography 44.0.1, Platform Windows-10-10.0.22631-SP0
+2025-02-21 22:11:46,620 - __main__ - INFO - Starting scraper: tunisianet_scraper
+2025-02-21 22:11:46,625 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api.proxyscrape.com:443
+2025-02-21 22:11:48,266 - urllib3.connectionpool - DEBUG - https://api.proxyscrape.com:443 "GET /v2/?request=getproxies&protocol=http HTTP/1.1" 200 3899
+2025-02-21 22:11:48,268 - scrapy.addons - INFO - Enabled addons:
+[]
+2025-02-21 22:11:48,272 - scrapy.utils.log - DEBUG - Using reactor: twisted.internet.selectreactor.SelectReactor
+2025-02-21 22:11:48,276 - scrapy.extensions.telnet - INFO - Telnet Password: 4ce925d372c8fd9b
+2025-02-21 22:11:48,297 - scrapy.middleware - INFO - Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.logstats.LogStats']
+2025-02-21 22:11:48,298 - scrapy.crawler - INFO - Overridden settings:
+{'CONCURRENT_REQUESTS': 4, 'DOWNLOAD_DELAY': 2, 'RETRY_TIMES': 3}
+2025-02-21 22:11:48,739 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: Android
+2025-02-21 22:11:48,791 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:48,836 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:48,916 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:49,013 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Sony BDV13, Brand: Sony, Model: BDV13
+2025-02-21 22:11:49,017 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Nintendo DSi, Brand: Nintendo, Model: DSi
+2025-02-21 22:11:49,032 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:49,069 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: Other
+2025-02-21 22:11:49,088 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: LYF F90M, Brand: LYF, Model: F90M
+2025-02-21 22:11:49,109 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Sony BDV14, Brand: Sony, Model: BDV14
+2025-02-21 22:11:49,193 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: LG Web0S SmartTV, Brand: LG, Model: Web0S SmartTV
+2025-02-21 22:11:49,230 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:49,395 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:49,410 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:49,414 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:49,482 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:49,486 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:49,538 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:49,543 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Sony BDV11, Brand: Sony, Model: BDV11
+2025-02-21 22:11:49,550 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:49,560 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:49,570 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:49,589 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:49,617 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Nintendo DSi, Brand: Nintendo, Model: DSi
+2025-02-21 22:11:49,680 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: LYF LF-2403N, Brand: LYF, Model: LF-2403N
+2025-02-21 22:11:49,686 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: LYF F90M, Brand: LYF, Model: F90M
+2025-02-21 22:11:49,796 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:49,805 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:49,902 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: Applebot
+2025-02-21 22:11:49,919 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:49,997 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: Applebot
+2025-02-21 22:11:50,049 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: Other
+2025-02-21 22:11:50,143 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: Other
+2025-02-21 22:11:50,175 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: PhantomJS
+2025-02-21 22:11:50,178 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: SMTBot
+2025-02-21 22:11:50,244 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: PhantomJS
+2025-02-21 22:11:50,251 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: PhantomJS
+2025-02-21 22:11:50,281 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: WebKit Nightly
+2025-02-21 22:11:50,345 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: PhantomJS
+2025-02-21 22:11:50,350 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:50,462 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: PhantomJS
+2025-02-21 22:11:50,466 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: PhantomJS
+2025-02-21 22:11:50,467 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: Robot
+2025-02-21 22:11:50,479 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:50,565 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: Zune
+2025-02-21 22:11:50,590 - scrapy.middleware - INFO - Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy_user_agents.middlewares.RandomUserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'rotating_proxies.middlewares.BanDetectionMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2025-02-21 22:11:50,596 - scrapy.middleware - INFO - Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2025-02-21 22:11:50,596 - scrapy.middleware - INFO - Enabled item pipelines:
+[]
+2025-02-21 22:11:50,597 - scrapy.core.engine - INFO - Spider opened
+2025-02-21 22:11:50,620 - scrapy.extensions.logstats - INFO - Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2025-02-21 22:11:50,621 - scrapy.extensions.telnet - INFO - Telnet console listening on 127.0.0.1:6023
+2025-02-21 22:11:50,622 - __main__ - INFO - Starting scraper: mytek_scraper
+2025-02-21 22:11:50,624 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api.proxyscrape.com:443
+2025-02-21 22:11:50,871 - urllib3.connectionpool - DEBUG - https://api.proxyscrape.com:443 "GET /v2/?request=getproxies&protocol=http HTTP/1.1" 200 3899
+2025-02-21 22:11:50,874 - scrapy.addons - INFO - Enabled addons:
+[]
+2025-02-21 22:11:50,875 - scrapy.extensions.telnet - INFO - Telnet Password: dbdbf945cb03858b
+2025-02-21 22:11:50,876 - scrapy.middleware - INFO - Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.logstats.LogStats']
+2025-02-21 22:11:50,876 - scrapy.crawler - INFO - Overridden settings:
+{'CONCURRENT_REQUESTS': 4, 'DOWNLOAD_DELAY': 2, 'RETRY_TIMES': 3}
+2025-02-21 22:11:50,987 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: Android
+2025-02-21 22:11:51,038 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:51,083 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:51,155 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:51,249 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Sony BDV13, Brand: Sony, Model: BDV13
+2025-02-21 22:11:51,253 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Nintendo DSi, Brand: Nintendo, Model: DSi
+2025-02-21 22:11:51,264 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:51,293 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: Other
+2025-02-21 22:11:51,311 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: LYF F90M, Brand: LYF, Model: F90M
+2025-02-21 22:11:51,332 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Sony BDV14, Brand: Sony, Model: BDV14
+2025-02-21 22:11:51,415 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: LG Web0S SmartTV, Brand: LG, Model: Web0S SmartTV
+2025-02-21 22:11:51,451 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:51,542 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:51,552 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:51,556 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:51,622 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:51,626 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:51,677 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:51,682 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Sony BDV11, Brand: Sony, Model: BDV11
+2025-02-21 22:11:51,688 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:51,698 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:51,706 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:51,724 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:51,750 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Nintendo DSi, Brand: Nintendo, Model: DSi
+2025-02-21 22:11:51,812 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: LYF LF-2403N, Brand: LYF, Model: LF-2403N
+2025-02-21 22:11:51,818 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: LYF F90M, Brand: LYF, Model: F90M
+2025-02-21 22:11:51,938 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:51,945 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:52,053 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: Applebot
+2025-02-21 22:11:52,071 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:52,149 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: Applebot
+2025-02-21 22:11:52,198 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: Other
+2025-02-21 22:11:52,293 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: Other
+2025-02-21 22:11:52,326 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: PhantomJS
+2025-02-21 22:11:52,329 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: SMTBot
+2025-02-21 22:11:52,392 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: PhantomJS
+2025-02-21 22:11:52,398 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: PhantomJS
+2025-02-21 22:11:52,430 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: WebKit Nightly
+2025-02-21 22:11:52,487 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: PhantomJS
+2025-02-21 22:11:52,491 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:52,603 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: PhantomJS
+2025-02-21 22:11:52,607 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: PhantomJS
+2025-02-21 22:11:52,609 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: Robot
+2025-02-21 22:11:52,619 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedDeviceType] Family: Other, Brand: None, Model: None
+2025-02-21 22:11:52,707 - scrapy_user_agents.user_agent_picker - WARNING - [UnsupportedBrowserType] Family: Zune
+2025-02-21 22:11:52,710 - scrapy.middleware - INFO - Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy_user_agents.middlewares.RandomUserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'rotating_proxies.middlewares.BanDetectionMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2025-02-21 22:11:52,711 - scrapy.middleware - INFO - Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2025-02-21 22:11:52,712 - scrapy.middleware - INFO - Enabled item pipelines:
+[]
+2025-02-21 22:11:52,712 - scrapy.core.engine - INFO - Spider opened
+2025-02-21 22:11:52,713 - scrapy.extensions.logstats - INFO - Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2025-02-21 22:11:52,714 - scrapy.extensions.telnet - INFO - Telnet console listening on 127.0.0.1:6024
+2025-02-21 22:11:52,714 - __main__ - INFO - Starting scraping process...
+2025-02-21 22:11:52,714 - scrapy.core.engine - ERROR - Error while obtaining start requests
+Traceback (most recent call last):
+  File "C:\Nouri\Coding Projects\COMPETITRACKER\CompetiTracker-Backend\venv\lib\site-packages\scrapy\core\engine.py", line 185, in _next_request
+    request_or_item = next(self.slot.start_requests)
+  File "C:\Nouri\Coding Projects\COMPETITRACKER\CompetiTracker-Backend\data_pipeline\scrapers\adapters\tunisianet.py", line 14, in start_requests
+    yield scrapy.Request(url=url, callback=self.parse)
+NameError: name 'scrapy' is not defined
+2025-02-21 22:11:52,716 - scrapy.core.engine - INFO - Closing spider (finished)
+2025-02-21 22:11:52,717 - tunisianet_scraper - INFO - Spider closed: tunisianet_scraper
+2025-02-21 22:11:52,717 - tunisianet_scraper - INFO - Total products collected: 0
+2025-02-21 22:11:52,717 - scrapy.statscollectors - INFO - Dumping Scrapy stats:
+{'elapsed_time_seconds': 2.096884,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2025, 2, 21, 21, 11, 52, 717516, tzinfo=datetime.timezone.utc),
+ 'items_per_minute': None,
+ 'log_count/DEBUG': 3,
+ 'log_count/ERROR': 1,
+ 'log_count/INFO': 24,
+ 'log_count/WARNING': 90,
+ 'responses_per_minute': None,
+ 'start_time': datetime.datetime(2025, 2, 21, 21, 11, 50, 620632, tzinfo=datetime.timezone.utc)}
+2025-02-21 22:11:52,718 - scrapy.core.engine - INFO - Spider closed (finished)
+2025-02-21 22:11:52,718 - scrapy.core.engine - ERROR - Error while obtaining start requests
+Traceback (most recent call last):
+  File "C:\Nouri\Coding Projects\COMPETITRACKER\CompetiTracker-Backend\venv\lib\site-packages\scrapy\core\engine.py", line 185, in _next_request
+    request_or_item = next(self.slot.start_requests)
+  File "C:\Nouri\Coding Projects\COMPETITRACKER\CompetiTracker-Backend\data_pipeline\scrapers\adapters\mytek.py", line 14, in start_requests
+    yield scrapy.Request(url=url, callback=self.parse)
+NameError: name 'scrapy' is not defined
+2025-02-21 22:11:52,719 - scrapy.core.engine - INFO - Closing spider (finished)
+2025-02-21 22:11:52,721 - mytek_scraper - INFO - Spider closed: mytek_scraper
+2025-02-21 22:11:52,721 - mytek_scraper - INFO - Total products collected: 0
+2025-02-21 22:11:52,721 - scrapy.statscollectors - INFO - Dumping Scrapy stats:
+{'elapsed_time_seconds': 0.007749,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2025, 2, 21, 21, 11, 52, 721234, tzinfo=datetime.timezone.utc),
+ 'items_per_minute': None,
+ 'log_count/ERROR': 2,
+ 'log_count/INFO': 18,
+ 'log_count/WARNING': 45,
+ 'responses_per_minute': None,
+ 'start_time': datetime.datetime(2025, 2, 21, 21, 11, 52, 713485, tzinfo=datetime.timezone.utc)}
+2025-02-21 22:11:52,722 - scrapy.core.engine - INFO - Spider closed (finished)
+2025-02-21 22:11:52,723 - __main__ - INFO - Scraping completed successfully
+2025-02-21 22:15:12,594 - scrapy.utils.log - INFO - Scrapy 2.12.0 started (bot: scrapybot)
+2025-02-21 22:15:12,615 - scrapy.utils.log - INFO - Versions: lxml 5.3.1.0, libxml2 2.11.7, cssselect 1.2.0, parsel 1.10.0, w3lib 2.3.1, Twisted 24.11.0, Python 3.9.5 (tags/v3.9.5:0a7dcbd, May  3 2021, 17:27:52) [MSC v.1928 64 bit (AMD64)], pyOpenSSL 25.0.0 (OpenSSL 3.4.1 11 Feb 2025), cryptography 44.0.1, Platform Windows-10-10.0.22631-SP0
+2025-02-21 22:15:12,616 - __main__ - INFO - Starting scraper: tunisianet_scraper
+2025-02-21 22:15:12,633 - scrapy.addons - INFO - Enabled addons:
+[]
+2025-02-21 22:15:12,637 - scrapy.utils.log - DEBUG - Using reactor: twisted.internet.selectreactor.SelectReactor
+2025-02-21 22:15:12,642 - scrapy.extensions.telnet - INFO - Telnet Password: 05c7c88c9a0d55be
+2025-02-21 22:15:12,659 - scrapy.middleware - INFO - Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.logstats.LogStats']
+2025-02-21 22:15:12,660 - scrapy.crawler - INFO - Overridden settings:
+{}
+2025-02-21 22:15:12,886 - scrapy.middleware - INFO - Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2025-02-21 22:15:12,892 - scrapy.middleware - INFO - Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2025-02-21 22:15:12,893 - scrapy.middleware - INFO - Enabled item pipelines:
+[]
+2025-02-21 22:15:12,894 - scrapy.core.engine - INFO - Spider opened
+2025-02-21 22:15:12,904 - scrapy.extensions.logstats - INFO - Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2025-02-21 22:15:12,905 - scrapy.extensions.telnet - INFO - Telnet console listening on 127.0.0.1:6023
+2025-02-21 22:15:12,906 - __main__ - INFO - Starting scraper: mytek_scraper
+2025-02-21 22:15:12,907 - scrapy.addons - INFO - Enabled addons:
+[]
+2025-02-21 22:15:12,908 - scrapy.extensions.telnet - INFO - Telnet Password: 9e10064edc5ae57b
+2025-02-21 22:15:12,909 - scrapy.middleware - INFO - Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.logstats.LogStats']
+2025-02-21 22:15:12,910 - scrapy.crawler - INFO - Overridden settings:
+{}
+2025-02-21 22:15:12,912 - scrapy.middleware - INFO - Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2025-02-21 22:15:12,913 - scrapy.middleware - INFO - Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2025-02-21 22:15:12,914 - scrapy.middleware - INFO - Enabled item pipelines:
+[]
+2025-02-21 22:15:12,914 - scrapy.core.engine - INFO - Spider opened
+2025-02-21 22:15:12,916 - scrapy.extensions.logstats - INFO - Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2025-02-21 22:15:12,917 - scrapy.extensions.telnet - INFO - Telnet console listening on 127.0.0.1:6024
+2025-02-21 22:15:12,917 - __main__ - INFO - Starting scraping process...
+2025-02-21 22:15:18,100 - scrapy.core.engine - DEBUG - Crawled (200) <GET https://www.mytek.tn/> (referer: None)
+2025-02-21 22:15:18,228 - scrapy.core.engine - INFO - Closing spider (finished)
+2025-02-21 22:15:18,229 - scrapy.statscollectors - INFO - Dumping Scrapy stats:
+{'downloader/request_bytes': 213,
+ 'downloader/request_count': 1,
+ 'downloader/request_method_count/GET': 1,
+ 'downloader/response_bytes': 52858,
+ 'downloader/response_count': 1,
+ 'downloader/response_status_count/200': 1,
+ 'elapsed_time_seconds': 5.312895,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2025, 2, 21, 21, 15, 18, 229192, tzinfo=datetime.timezone.utc),
+ 'httpcompression/response_bytes': 556259,
+ 'httpcompression/response_count': 1,
+ 'items_per_minute': None,
+ 'log_count/DEBUG': 1,
+ 'log_count/INFO': 11,
+ 'response_received_count': 1,
+ 'responses_per_minute': None,
+ 'scheduler/dequeued': 1,
+ 'scheduler/dequeued/memory': 1,
+ 'scheduler/enqueued': 1,
+ 'scheduler/enqueued/memory': 1,
+ 'start_time': datetime.datetime(2025, 2, 21, 21, 15, 12, 916297, tzinfo=datetime.timezone.utc)}
+2025-02-21 22:15:18,231 - scrapy.core.engine - INFO - Spider closed (finished)
+2025-02-21 22:15:20,766 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): publicsuffix.org:443
+2025-02-21 22:15:26,410 - urllib3.connectionpool - DEBUG - https://publicsuffix.org:443 "GET /list/public_suffix_list.dat HTTP/1.1" 200 86597
+2025-02-21 22:15:26,804 - scrapy.core.engine - DEBUG - Crawled (200) <GET https://www.tunisianet.com.tn/> (referer: None)
+2025-02-21 22:15:26,929 - scrapy.core.engine - INFO - Closing spider (finished)
+2025-02-21 22:15:26,930 - scrapy.statscollectors - INFO - Dumping Scrapy stats:
+{'downloader/request_bytes': 222,
+ 'downloader/request_count': 1,
+ 'downloader/request_method_count/GET': 1,
+ 'downloader/response_bytes': 48307,
+ 'downloader/response_count': 1,
+ 'downloader/response_status_count/200': 1,
+ 'elapsed_time_seconds': 14.025023,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2025, 2, 21, 21, 15, 26, 929072, tzinfo=datetime.timezone.utc),
+ 'httpcompression/response_bytes': 207546,
+ 'httpcompression/response_count': 1,
+ 'items_per_minute': None,
+ 'log_count/DEBUG': 5,
+ 'log_count/INFO': 25,
+ 'response_received_count': 1,
+ 'responses_per_minute': None,
+ 'scheduler/dequeued': 1,
+ 'scheduler/dequeued/memory': 1,
+ 'scheduler/enqueued': 1,
+ 'scheduler/enqueued/memory': 1,
+ 'start_time': datetime.datetime(2025, 2, 21, 21, 15, 12, 904049, tzinfo=datetime.timezone.utc)}
+2025-02-21 22:15:26,932 - scrapy.core.engine - INFO - Spider closed (finished)
+2025-02-21 22:15:26,932 - __main__ - INFO - Scraping completed successfully
