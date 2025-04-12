@@ -117,7 +117,7 @@ class SpacenetScraper:
         return category.replace("-", " ")
 
 
-    def scrape_page(self, page_url,category):
+    def scrape_page(self, page_url):
         """Scrape product details from a single category page"""
         try:
             response = requests.get(page_url, timeout=10)
@@ -129,29 +129,23 @@ class SpacenetScraper:
         soup = BeautifulSoup(response.content, 'lxml')
         products = []
 
-        product_list = soup.find('ol', class_='products list items product-items')
+        product_list = soup.find('div', class_='row')
         if not product_list:
             print(f"No products found on page: {page_url}")
             return []
+        
 
-        for item in product_list.find_all('li', class_='product-item'):
-            product_name = item.find('strong', class_='product name product-item-name')
+        for item in product_list.find_all('div', class_='item col-xs-6 col-sm-4  col-md-3 col-lg-3'):
+            product_name = item.find('h2', class_='product_name')
             product_price = item.find('span', class_='price').text.strip()
             #remove the letters with re
             match = re.search(r'\d+', product_price)
             price = float(match.group())
-            link = item.find('a', class_="product-item-link")
-            
-            stock_status = item.find('div', class_='stock available')
-            if not stock_status:
-                stock_status = item.find('div', class_='stock available available_backorder')
-            ref = item.find('div', class_='skuDesktop')
-            description = item.find('div' , class_="description")
-            discount = item.find('span', class_='discount-price')
-            image = item.find('img', class_="product-image-photo")
-            garantie_element = soup.find("strong", string=lambda text: text and "Garantie" in text)
-            if garantie_element : 
-                garantie = garantie_element.text.strip().replace("Garantie:", "").strip()
+            link = item.find('a', class_="thumbnail product-thumbnail")
+            stock_status = item.find('div', class_='product-quantities')
+            ref = item.find('div', class_='product-reference')
+            discount = item.find('span', class_='discount-amount')
+            image = item.find('img', class_="img-responsive product_image")
             if price>=300 : 
                 livraison = "Gratuite"
             else:
@@ -162,11 +156,8 @@ class SpacenetScraper:
                 'product_name': product_name.text.strip() if product_name else "Unknown",
                 'product_price': product_price,
                 'discount': discount.text.strip() if discount else "No Discount",
-                'category' : category,
                 'stock_status': stock_status.text.strip() if stock_status else "Epuisé",
                 'ref': ref.text.strip().replace("[", "").replace("]", "") if ref else "N/A",
-                'description': description.text.strip() if description else "N/A",
-                'garantie' : garantie if garantie_element else "Sans Garantie",
                 'livraison' : livraison,
                 'image': image.get("src") if image else "No Image",
             })
@@ -208,11 +199,11 @@ class SpacenetScraper:
             print(f"Scraping: {url}")
             returned = self.scrape_element(url)
             if returned:
-                save_to_db("mytek_products", returned)
+                save_to_db("products", returned)
             else:
                 print(f"Skipping {url} due to scraping error.")
 
 
 if __name__ == "__main__":
     scraper = SpacenetScraper()
-    print(scraper.get_urls())
+    print(scraper.scrape_page("https://spacenet.tn/74-pc-portable-tunisie"))
