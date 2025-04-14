@@ -1,4 +1,5 @@
 import datetime
+import time
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from pymongo import MongoClient
@@ -129,13 +130,12 @@ class SpacenetScraper:
         soup = BeautifulSoup(response.content, 'lxml')
         products = []
 
-        product_list = soup.find('div', class_='row')
+        product_list = soup.find('div', id='box-product-grid')
         if not product_list:
             print(f"No products found on page: {page_url}")
             return []
         
-
-        for item in product_list.find_all('div', class_='item col-xs-6 col-sm-4  col-md-3 col-lg-3'):
+        for item in product_list.find_all('div', class_='field-product-item item-inner product-miniature js-product-miniature'):
             product_name = item.find('h2', class_='product_name')
             product_price = item.find('span', class_='price').text.strip()
             #remove the letters with re
@@ -161,7 +161,6 @@ class SpacenetScraper:
                 'livraison' : livraison,
                 'image': image.get("src") if image else "No Image",
             })
-
         return products
 
     def scrape_element(self, base_url):
