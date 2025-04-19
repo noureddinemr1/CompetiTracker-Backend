@@ -14,7 +14,7 @@ import re
 load_dotenv()
 
 # MongoDB Setup
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
+MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://noureddinemarzougui19:Fakeprofile123*@cluster0.tx9muur.mongodb.net/")
 DB_NAME = "CompetiTracker"
 
 client = MongoClient(MONGO_URI)
@@ -44,12 +44,17 @@ class MytekScraper:
         competitor = get_from_db("competitors", {"url": self.url})
 
         if not competitor:
-            print("Error: Competitor not found in the database.")
-            self.competitor_id = None
-            return
+            data ={
+                "name": "Mytek",
+                "url": self.url,
+                "logo": "https://mk-media.mytek.tn/media/logo/stores/1/LOGO-MYTEK-176PX-INVERSE.png",
+            }
+            save_to_db("competitors",data)
+            competitor = get_from_db("competitors", {"url": self.url})
+    
 
         self.competitor_id = competitor["_id"]
-        self.chrome_driver_path = "C:\prgrms\chromedriver-win64\chromedriver-win64\chromedriver.exe"
+        self.chrome_driver_path = r"C:\Users\marzo\Downloads\chromedriver-win64\chromedriver-win64\chromedriver.exe"
         self.chrome_options = Options()
         self.chrome_options.add_argument("--headless")
         self.chrome_options.add_argument("--disable-gpu")
@@ -71,17 +76,19 @@ class MytekScraper:
             self.driver.get(self.url)
             self.driver.implicitly_wait(2)
 
-            ul_element = self.driver.find_element(By.XPATH, '//*[@id="rw-menutop"]/li[1]/div/ul')
-            soup = BeautifulSoup(ul_element.get_attribute('outerHTML'), 'html.parser')
-
             links = set()
-            for a_tag in soup.find_all('a', href=True):
-                href = a_tag['href']
-                if href != "javaScript:void(0);" and href.count("/") == 5:
-                    links.add(href)
+
+            for i in [1, 2]:
+                li_xpath = f'//*[@id="rw-menutop"]/li[1]/div/ul/li[{i}]'
+                li_element = self.driver.find_element(By.XPATH, li_xpath)
+                soup = BeautifulSoup(li_element.get_attribute('outerHTML'), 'html.parser')
+
+                for a_tag in soup.find_all('a', href=True):
+                    href = a_tag['href']
+                    if href != "javaScript:void(0);" and href.count("/") == 5:
+                        links.add(href)
 
             sorted_links = sorted(links)
-
             if not sorted_links:
                 print("No product URLs found.")
                 return
@@ -139,34 +146,29 @@ class MytekScraper:
             match = re.search(r'\d+', product_price)
             price = float(match.group())
             link = item.find('a', class_="product-item-link")
-            
-            stock_status = item.find('div', class_='stock available')
-            if not stock_status:
-                stock_status = item.find('div', class_='stock available available_backorder')
+            stock_status = item.find('div', class_='card-body')
             ref = item.find('div', class_='skuDesktop')
-            description = item.find('div' , class_="description")
+            description = item.find('div' , class_="product description product-item-description")
             discount = item.find('span', class_='discount-price')
             image = item.find('img', class_="product-image-photo")
-            garantie_element = soup.find("strong", string=lambda text: text and "Garantie" in text)
-            if garantie_element : 
-                garantie = garantie_element.text.strip().replace("Garantie:", "").strip()
             if price>=300 : 
                 livraison = "Gratuite"
             else:
                 livraison = "Payante"
 
             products.append({
+                'competitor' : self.competitor_id,    
+                'ref': ref.text.strip().replace("[", "").replace("]", "") if ref else "N/A",
                 'url' : link.get("href"),
                 'product_name': product_name.text.strip() if product_name else "Unknown",
                 'product_price': product_price,
                 'discount': discount.text.strip() if discount else "No Discount",
                 'category' : category,
                 'stock_status': stock_status.text.strip() if stock_status else "Epuisé",
-                'ref': ref.text.strip().replace("[", "").replace("]", "") if ref else "N/A",
                 'description': description.text.strip() if description else "N/A",
-                'garantie' : garantie if garantie_element else "Sans Garantie",
                 'livraison' : livraison,
                 'image': image.get("src") if image else "No Image",
+                "LastUpdate" : datetime.datetime.utcnow()
             })
 
         return products
@@ -192,6 +194,10 @@ class MytekScraper:
             page_num += 1
 
         return all_products
+    
+    def get_product_id(self,url):
+        product = get_from_db("products",{"url" : url})
+        return product["_id"]
 
     def scrape_all(self):
         """Main function to scrape all categories"""
@@ -206,10 +212,22 @@ class MytekScraper:
             print(f"Scraping: {url}")
             returned = self.scrape_element(url)
             if returned:
-                save_to_db("mytek_products", returned)
+                save_to_db("products", returned)
+                print("products saved to db")
+                history = []
+                for p in returned : 
+                    elem = {
+                        'product' : self.get_product_id(p["url"]),
+                        'competitor' : p['competitor'],
+                        'price' : p["product_price"],
+                        'stock_status' : p["stock_status"],
+                        'scrapedAt' : p["LastUpdate"]
+                    }
+                    history.append(elem)
+                save_to_db("product_history",history)
+                print(f"Scraped {len(returned)} products from {url}")
             else:
                 print(f"Skipping {url} due to scraping error.")
-
 
 if __name__ == "__main__":
     scraper = MytekScraper()

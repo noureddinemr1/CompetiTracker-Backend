@@ -1,16 +1,16 @@
-import datetime
-import time
+from datetime import datetime, UTC
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 from pymongo import MongoClient
 import requests
-import os
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+import os
+
 
 
 import re
@@ -19,7 +19,7 @@ import re
 load_dotenv()
 
 # MongoDB Setup
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
+MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://noureddinemarzougui19:Fakeprofile123*@cluster0.tx9muur.mongodb.net/")
 DB_NAME = "CompetiTracker"
 
 client = MongoClient(MONGO_URI)
@@ -49,17 +49,22 @@ class TunisianetScraper:
         competitor = get_from_db("competitors", {"url": self.url})
 
         if not competitor:
-            print("Error: Competitor not found in the database.")
-            self.competitor_id = None
-            return
+            data ={
+                "name": "Tunisianet",
+                "url": self.url,
+                "logo": "https://www.tunisianet.com.tn/img/tunisianet-logo-1611064619.jpg",
+            }
+            save_to_db("competitors",data)
+            competitor = get_from_db("competitors", {"url": self.url})
 
         self.competitor_id = competitor["_id"]
-        self.chrome_driver_path = "C:\prgrms\chromedriver-win64\chromedriver-win64\chromedriver.exe"
+        self.chrome_driver_path = r"C:\Users\marzo\Downloads\chromedriver-win64\chromedriver-win64\chromedriver.exe"
         self.chrome_options = Options()
         self.chrome_options.add_argument("--headless")
         self.chrome_options.add_argument("--disable-gpu")
         self.chrome_options.add_argument("--no-sandbox")
         self.chrome_options.add_argument("--disable-dev-shm-usage")
+
 
         # Automatically detect and install the latest compatible ChromeDriver
         self.driver = webdriver.Chrome(
@@ -76,7 +81,7 @@ class TunisianetScraper:
             self.driver.get(self.url)
             self.driver.implicitly_wait(4)
 
-            ul_element = self.driver.find_element(By.XPATH, '//*[@id="_desktop_top_menu"]/div/div/ul')
+            ul_element = self.driver.find_element(By.XPATH, '//*[@id="_desktop_top_menu"]/div/div/ul/li[1]')
             soup = BeautifulSoup(ul_element.get_attribute('outerHTML'), 'html.parser')
             
 
@@ -90,7 +95,7 @@ class TunisianetScraper:
             sorted_links = sorted(links)
 
             data_entry = {
-                "competitor_id": self.competitor_id,
+                "competitor": self.competitor_id,
                 "scrapedAt" : datetime.datetime.utcnow(),
                 "urls" : sorted_links
             }
@@ -125,12 +130,12 @@ class TunisianetScraper:
         soup = BeautifulSoup(response.content, 'lxml')
         products = []
 
-        product_list = soup.find('div', class_='products product-thumbs row wb-product-list')
+        product_list = soup.find('div', class_='products')
         if not product_list:
             print(f"No products found on page: {page_url}")
             return []
 
-        for item in product_list.find_all('div', class_='item-product col-xs-12'):
+        for item in product_list.find_all('div', class_='item-product'):
             product_name = item.find('h2', class_='h3 product-title')
             product_price = item.find('span', class_='price').text.strip()
             #remove the letters with re
@@ -142,16 +147,14 @@ class TunisianetScraper:
             description = item.find('div' , class_="listds")
             discount = item.find('span', class_='discount-amount discount-product')
             image = item.find('img', class_="center-block img-responsive")
-            garantie_element = soup.find("strong", string=lambda text: text and "Garantie" in text)
-            if garantie_element : 
-                garantie = garantie_element.text.strip().replace("Garantie ", "").strip()
             if price>=300 : 
                 livraison = "Gratuite"
             else:
                 livraison = "Payante"
 
             products.append({
-                "competitor" : self.competitor_id,                'url' : link.get("href"),
+                "competitor" : self.competitor_id,                
+                'url' : link.get("href"),
                 'product_name': product_name.text.strip() if product_name else "Unknown",
                 'product_price': product_price,
                 'discount': discount.text.strip() if discount else "No Discount",
@@ -159,67 +162,14 @@ class TunisianetScraper:
                 'stock_status': stock_status.text.strip() if stock_status else "Epuisé",
                 'ref': ref.text.strip().replace("[", "").replace("]", "") if ref else "N/A",
                 'description': description.text.strip() if description else "N/A",
-                'garantie' : garantie if garantie_element else "Sans Garantie",
                 'livraison' : livraison,
                 'image': image.get("src") if image else "No Image",
-                "LastUpdate" : datetime.datetime.utcnow()            })
+                "LastUpdate" : datetime.now(UTC)
+           })
+            print(product_name.text.strip())
 
         return products
    
-    def scrape_page2(self,page_url,category) : 
-        """Scrape product details from a single category page"""
-        try:
-            response = requests.get(page_url,timeout=10)
-            response.raise_for_status()
-        except requests.exceptions.RequestException as e:
-            print(f"Failed to fetch page: {page_url} ({e})")
-            return []
-
-        soup = BeautifulSoup(response.content, 'lxml')
-        products = []
-        print(soup)
-
-        product_list = soup.find('div', class_='products product-thumbs row wb-product-grid')
-        if not product_list:
-            print(f"No products found on page: {page_url}")
-            return []
-        
-        for item in product_list.find_all('div', class_="item-product col-xs-12 col-sm-5 col-md-4 col-xl-3 col-lg-3"):
-            product_name = item.find('h2', class_='h3 product-title')
-            product_price = item.find('span', class_='price').text.strip()
-            #remove the letters with re
-            price_cleaned = re.sub(r'[^\d,]', '', product_price)  # Remove everything except digits and commas
-            price = float(price_cleaned.replace(',', '.').replace(" ",""))
-            link = item.find('a', class_="thumbnail product-thumbnail first-img")
-            stock_status = item.find('div', id='stock_availability')
-            ref = item.find('span', class_='product-reference')
-            description = item.find('div' , class_="listds")
-            discount = item.find('span', class_='discount-amount discount-product')
-            image = item.find('img', class_="center-block img-responsive")
-            garantie_element = soup.find("strong", string=lambda text: text and "Garantie" in text)
-            if garantie_element : 
-                garantie = garantie_element.text.strip().replace("Garantie ", "").strip()
-            if price>=300 : 
-                livraison = "Gratuite"
-            else:
-                livraison = "Payante"
-
-            products.append({
-                "competitor" : self.competitor_id,                'url' : link.get("href"),
-                'product_name': product_name.text.strip() if product_name else "Unknown",
-                'product_price': product_price,
-                'discount': discount.text.strip() if discount else "No Discount",
-                'category' : category,
-                'stock_status': stock_status.text.strip() if stock_status else "Epuisé",
-                'ref': ref.text.strip().replace("[", "").replace("]", "") if ref else "N/A",
-                'description': description.text.strip() if description else "N/A",
-                'garantie' : garantie if garantie_element else "Sans Garantie",
-                'livraison' : livraison,
-                'image': image.get("src") if image else "No Image",
-                "LastUpdate" : datetime.datetime.utcnow()
-            })
-        return products
-
 
     def scrape_element(self, base_url):
         """Scrape all pages for a single category"""
@@ -257,6 +207,7 @@ class TunisianetScraper:
         for url in tunisianet["urls"]:
             print(f"Scraping: {url}")
             returned = self.scrape_element(url)
+
             if returned:
                 save_to_db("products", returned)
                 print("products saved to db")
@@ -275,3 +226,6 @@ class TunisianetScraper:
             else:
                 print(f"Skipping {url} due to scraping error.")
 
+if __name__ == "__main__":
+    scraper = TunisianetScraper()
+    scraper.scrape_all()
