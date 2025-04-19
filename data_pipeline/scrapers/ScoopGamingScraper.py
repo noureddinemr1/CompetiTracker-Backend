@@ -14,7 +14,7 @@ import re
 load_dotenv()
 
 # MongoDB Setup
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
+MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://noureddinemarzougui19:Fakeprofile123*@cluster0.tx9muur.mongodb.net/")
 DB_NAME = "CompetiTracker"
 
 client = MongoClient(MONGO_URI)
