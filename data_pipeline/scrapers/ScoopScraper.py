@@ -49,7 +49,7 @@ class ScoopScraper:
             return
 
         self.competitor_id = competitor["_id"]
-        self.chrome_driver_path = "C:\prgrms\chromedriver-win64\chromedriver-win64\chromedriver.exe"
+        self.chrome_driver_path = r"C:\Users\marzo\Downloads\chromedriver-win64\chromedriver-win64\chromedriver.exe"
         self.chrome_options = Options()
         self.chrome_options.add_argument("--headless")
         self.chrome_options.add_argument("--disable-gpu")
@@ -75,10 +75,14 @@ class ScoopScraper:
             soup = BeautifulSoup(ul_element.get_attribute('outerHTML'), 'html.parser')
 
             links = set()
-            for a_tag in soup.find_all('a', href=True):
-                href = a_tag['href']
-                if href != "javaScript:void(0);" and href.count("/") == 5:
-                    links.add(href)
+            sub_lis = soup.find_all('li', class_="level-1 parent")
+            # Skip the last li
+            for sub_li in sub_lis[:-3]:
+                a_tags = sub_li.find_all('a',href=True)  # Find all <a> tags inside each <li>
+                for a_tag in a_tags:
+                    href = a_tag.get('href')
+                    if href and href != "javaScript:void(0);" and href.count("/") == 3:
+                        links.add(href)
 
             sorted_links = sorted(links)
 
@@ -218,11 +222,11 @@ class ScoopScraper:
             print(f"Scraping: {url}")
             returned = self.scrape_element(url)
             if returned:
-                save_to_db("mytek_products", returned)
+                save_to_db("products", returned)
             else:
                 print(f"Skipping {url} due to scraping error.")
 
 
 if __name__ == "__main__":
     scraper = ScoopScraper()
-    scraper.scrape_all()
+    scraper.get_urls()

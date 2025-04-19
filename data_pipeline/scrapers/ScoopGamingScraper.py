@@ -49,7 +49,7 @@ class ScoopGamingScraper:
             return
 
         self.competitor_id = competitor["_id"]
-        self.chrome_driver_path = "C:\prgrms\chromedriver-win64\chromedriver-win64\chromedriver.exe"
+        self.chrome_driver_path = r"C:\Users\marzo\Downloads\chromedriver-win64\chromedriver-win64\chromedriver.exe"
         self.chrome_options = Options()
         self.chrome_options.add_argument("--headless")
         self.chrome_options.add_argument("--disable-gpu")
@@ -77,7 +77,7 @@ class ScoopGamingScraper:
             links = set()
             for a_tag in soup.find_all('a', href=True):
                 href = a_tag['href']
-                if href != "javaScript:void(0);" and href.count("/") == 5:
+                if href != "javaScript:void(0);":
                     links.add(href)
 
             sorted_links = sorted(links)
@@ -218,11 +218,11 @@ class ScoopGamingScraper:
             print(f"Scraping: {url}")
             returned = self.scrape_element(url)
             if returned:
-                save_to_db("mytek_products", returned)
+                save_to_db("products", returned)
             else:
                 print(f"Skipping {url} due to scraping error.")
 
 
 if __name__ == "__main__":
     scraper = ScoopGamingScraper()
-    scraper.scrape_all()
+    scraper.get_urls()
