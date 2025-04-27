@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const session = require('express-session');
 const dotenv = require('dotenv');
+const path = require("path");
 
 // Load environment variables
 dotenv.config();
@@ -9,22 +9,28 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Session (optional – needed only if using req.session for signout)
-app.use(session({
-  secret: process.env.JWT_SECRET || 'supersecretkey',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false } // set to true if using HTTPS
-}));
-
 // Routes
 const authRoutes = require('./routes/auth.routes');
-const userRoutes = require("./routes/user.routes");
+const userRoutes = require('./routes/user.routes');
+const productRoutes = require('./routes/product.routes');
+app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 app.use('/api/auth', authRoutes);
-app.use('/api/user',userRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/product', productRoutes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Internal server error' });
+});
 
 module.exports = app;

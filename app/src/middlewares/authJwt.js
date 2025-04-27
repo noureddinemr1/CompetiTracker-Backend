@@ -1,75 +1,87 @@
-const jwt = require("jsonwebtoken");
-const config = require("../config/auth.config.js");
-const User = require("../models/user.model"); // <-- Import User model
+const jwt = require('jsonwebtoken');
+const User = require('../models/user.model');
 
-// Middleware to verify JWT token
-verifyToken = (req, res, next) => {
-  let token = req.session.token;
-
+const verifyToken = (req, res, next) => {
+  const token = req.headers['authorization']?.split(' ')[1];
   if (!token) {
-    return res.status(403).send({
-      message: "No token provided!",
-    });
+    return res.status(403).json({ message: 'No token provided' });
   }
 
-  jwt.verify(token, config.secret, (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET || 'supersecretkey', (err, decoded) => {
     if (err) {
-      return res.status(401).send({
-        message: "Unauthorized!",
-      });
+      return res.status(401).json({ message: 'Unauthorized' });
     }
     req.userId = decoded.id;
+    req.user = decoded;
     next();
   });
 };
 
-// Middleware to check if user is admin
-isAdmin = async (req, res, next) => {
+const isAdmin = async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.userId); // or use findOne with where: { id: req.userId }
-    if (!user) {
-      return res.status(404).send({ message: "User not found." });
+    const user = await User.findById(req.userId);
+    if (!user || !['Admin', 'SuperAdmin'].includes(user.role)) {
+      return res.status(403).json({ message: 'Admin or SuperAdmin access required' });
     }
 
-    if (user.role !== "Admin" && user.role !=="SuperAdmin") {
-      return res.status(403).send({
-        message: "Require Admin Role!",
-      });
+    if (req.params.email) {
+      const targetUser = await User.findOne({ email: req.params.email });
+      if (!targetUser) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      if (user.role === 'Admin' && ['Admin', 'SuperAdmin'].includes(targetUser.role)) {
+        return res.status(403).json({ message: 'Cannot act on Admin or SuperAdmin' });
+      }
+
+      if (user.role === 'SuperAdmin' && targetUser.role === 'SuperAdmin') {
+        return res.status(403).json({ message: 'Cannot act on SuperAdmin' });
+      }
+
+      if (user.id === targetUser.id) {
+        return res.status(403).json({ message: 'Cannot act on self' });
+      }
     }
 
-    next(); 
-  } catch (error) {
-    return res.status(500).send({
-      message: "Unable to validate Admin role!",
-    });
+    next();
+  } catch (err) {
+    res.status(500).json({ message: 'Error verifying admin access', error: err.message });
   }
 };
 
-isSuperAdmin = async (req, res, next) => {
+
+const canEditUser = async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.userId); // or use findOne with where: { id: req.userId }
+    const user = await User.findByPk(req.userId);
     if (!user) {
-      return res.status(404).send({ message: "User not found." });
+      return res.status(404).json({ message: 'User not found' });
     }
 
-    if (user.role !== "SuperAdmin") {
-      return res.status(403).send({
-        message: "Require Admin Role!",
-      });
+    const targetEmail = req.params.email;
+    const targetUser = await User.findOne({ where: { email: targetEmail } });
+    if (!targetUser) {
+      return res.status(404).json({ message: 'Target user not found' });
     }
 
-    next(); 
-  } catch (error) {
-    return res.status(500).send({
-      message: "Unable to validate Admin role!",
-    });
+    if (
+      user.email === targetEmail ||
+      ['Admin', 'SuperAdmin'].includes(user.role)
+    ) {
+      if (user.email !== targetEmail) {
+        if (user.role === 'Admin' && ['Admin', 'SuperAdmin'].includes(targetUser.role)) {
+          return res.status(403).json({ message: 'Cannot edit Admin or SuperAdmin' });
+        }
+        if (user.role === 'SuperAdmin' && targetUser.role === 'SuperAdmin') {
+          return res.status(403).json({ message: 'Cannot edit SuperAdmin' });
+        }
+      }
+      next();
+    } else {
+      return res.status(403).json({ message: 'Unauthorized to edit this user' });
+    }
+  } catch (err) {
+    res.status(500).json({ message: 'Error verifying edit access', error: err.message });
   }
 };
 
-const authJwt = {
-  verifyToken,
-  isAdmin, 
-  isSuperAdmin,
-};
-
-module.exports = authJwt;
+module.exports = { verifyToken, isAdmin, canEditUser };

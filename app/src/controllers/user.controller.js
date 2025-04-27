@@ -4,64 +4,81 @@ const bcrypt = require('bcrypt');
 // Get all users
 exports.getUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.find().select("-password");
     res.status(200).json(users);
   } catch (err) {
-    res.status(500).json({ message: 'Error retrieving users', error: err });
+    res.status(500).json({ message: 'Error retrieving users'});
   }
 };
 
 // Delete user by email
 exports.deleteUser = async (req, res) => {
   try {
-    const { email } = req.params;
-    const result = await User.destroy({ where: { email } });
+    const email = req.params.email;
 
-    if (result === 0) {
+    const result = await User.findOneAndDelete({ email: email });
+
+    if (!result) {
       return res.status(404).json({ message: 'User not found' });
     }
 
     res.status(200).json({ message: 'User deleted successfully' });
   } catch (err) {
-    res.status(500).json({ message: 'Error deleting user', error: err });
+    res.status(500).json({ message: 'Error deleting user'});
   }
 };
 
-// Accept user (change status to Active)
+
+// Accept user
 exports.acceptUser = async (req, res) => {
   try {
-    const { email } = req.params;
-    const [updated] = await User.update(
-      { status: 'Active' },
-      { where: { email } }
-    );
+    const email = req.params.email;
 
-    if (!updated) {
+    // Find the user
+    const user = await User.findOne({email : email}).select("-password");
+
+    if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.status(200).json({ message: 'User accepted' });
+    // Update the fields
+    user.status = 'Active';
+    user.role = 'Marketing Analyst';
+
+    // Save changes
+    await user.save();
+
+    // Exclude password before sending response
+    const userData = user.toJSON();
+
+    res.status(200).json({ message: 'User accepted', user: userData });
   } catch (err) {
-    res.status(500).json({ message: 'Error accepting user', error: err });
+    res.status(500).json({ message: 'Error accepting user' });
   }
 };
 
-// Decline user (change status to Rejected)
+// Decline user
 exports.declineUser = async (req, res) => {
   try {
-    const { email } = req.params;
-    const [updated] = await User.update(
-      { status: 'Rejected' },
-      { where: { email } }
-    );
+    const email = req.params.email;
 
-    if (!updated) {
+    // Find the user
+    const user = await User.findOne({email : email}).select("-password");
+
+    if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.status(200).json({ message: 'User declined' });
+    // Update the fields
+    user.status = 'Rejected';
+    user.role = 'None';
+
+    // Save changes
+    await user.save();
+
+    res.status(200).json({ message: 'User declined', user });
   } catch (err) {
-    res.status(500).json({ message: 'Error declining user', error: err });
+    res.status(500).json({ message: 'Error declining user'});
   }
 };
 
@@ -69,20 +86,25 @@ exports.declineUser = async (req, res) => {
 exports.editUser = async (req, res) => {
   try {
     const { email } = req.params;
-    const { fullname, photo } = req.body;
+    const { fullname } = req.body;
+    const photo = req.file ? `/uploads/${req.file.filename}` : req.body.photo;
 
-    const [updated] = await User.update(
-      { fullname, photo },
-      { where: { email } }
-    );
+    const user = await User.findOne({email : email}).select("-password");
 
-    if (!updated) {
+    if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.status(200).json({ message: 'User updated successfully' });
+    // Update the fields
+    user.fullname = fullname;
+    user.photo = photo;
+
+    // Save changes
+    await user.save();
+
+    res.status(200).json({ message: "User updated successfully", user });
   } catch (err) {
-    res.status(500).json({ message: 'Error updating user', error: err });
+    res.status(500).json({ message: "Error updating user"});
   }
 };
 
@@ -91,82 +113,111 @@ exports.changeRole = async (req, res) => {
   try {
     const { email } = req.params;
     const { role } = req.body;
+    const validRoles = ['Admin', 'Marketing Analyst'];
 
-    const [updated] = await User.update(
-      { role },
-      { where: { email } }
-    );
+    if (!validRoles.includes(role)) {
+      return res.status(400).json({ message: 'Invalid role' });
+    }
 
-    if (!updated) {
+    const user = await User.findOne({email : email}).select("-password");
+    if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    res.status(200).json({ message: 'User role updated successfully' });
+    // Update the fields
+    user.role = role;
+    // Save changes
+    await user.save();
+    
+
+    res.status(200).json({ message: 'User role updated successfully', user });
   } catch (err) {
-    res.status(500).json({ message: 'Error changing user role', error: err });
+    res.status(500).json({ message: 'Error changing user role'});
   }
 };
 
 // Change user password
-exports.changePassword = async (req, res) => {
-    try {
-      const { email } = req.params;
-      const { oldPassword, newPassword } = req.body;
-  
-      const user = await User.findOne({ where: { email } });
-      if (!user) return res.status(404).json({ message: 'User not found' });
-  
-      const passwordMatch = await bcrypt.compare(oldPassword, user.password);
-      if (!passwordMatch) {
-        return res.status(401).json({ message: 'Old password is incorrect' });
-      }
-  
-      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-      await User.update({ password: hashedNewPassword }, { where: { email } });
-  
-      res.status(200).json({ message: 'Password changed successfully' });
-    } catch (err) {
-      res.status(500).json({ message: 'Error changing password', error: err });
-    }
-  };
-   
+exports.updatePassword = async (req, res) => {
+  try {
+    const { email } = req.params;
+    const { oldPassword, newPassword } = req.body;
 
+    if (!oldPassword || !newPassword) {
+      return res.status(400).json({ message: 'Old and new passwords are required' });
+    }
+
+    const user = await User.findOne({email : email});
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const passwordMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ message: 'Old password is incorrect' });
+    }
+
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedNewPassword;
+    await user.save();
+    res.status(200).json({ message: 'Password changed successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Error changing password'});
+  }
+};
 
 // Change user email
-exports.changeEmail = async (req, res) => {
-    try {
-      const { email } = req.params; // current email
-      const { newEmail } = req.body;
-  
-      const existingUser = await User.findOne({ where: { email } });
-      if (!existingUser) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-  
-      const emailTaken = await User.findOne({ where: { email: newEmail } });
-      if (emailTaken) {
-        return res.status(409).json({ message: 'New email is already in use' });
-      }
-  
-      await User.update({ email: newEmail }, { where: { email } });
-  
-      res.status(200).json({ message: 'Email updated successfully' });
-    } catch (err) {
-      res.status(500).json({ message: 'Error updating email', error: err });
+exports.updateEmail = async (req, res) => {
+  try {
+    const { email } = req.params;
+    const { newEmail } = req.body;
+
+    if (!newEmail) {
+      return res.status(400).json({ message: 'New email is required' });
     }
-  };
-  
-  exports.getUserProfile = async (req, res) => {
-    try {
-      const user = await User.findByPk(req.userId, {
-        attributes: { exclude: ['password'] }
-      });
-  
-      if (!user) return res.status(404).json({ message: "User not found" });
-  
-      res.status(200).json(user);
-    } catch (err) {
-      res.status(500).json({ message: "Error fetching user profile", error: err });
+
+    const existingUser = await User.findOne({email : email}).select("-password");
+    if (!existingUser) {
+      return res.status(404).json({ message: 'User not found' });
     }
-  };
-  
+
+    const emailTaken = await User.findOne({email : newEmail});
+    if (emailTaken) {
+      return res.status(409).json({ message: 'New email is already in use' });
+    }
+
+    existingUser.email = newEmail;
+    await existingUser.save();
+    res.status(200).json({ message: 'Email updated successfully', existingUser });
+  } catch (err) {
+    res.status(500).json({ message: 'Error updating email'});
+  }
+};
+
+// Get user profile
+exports.getUserProfile = async (req, res) => {
+  try {
+    const {email} = req.params;
+    const user = await User.findOne({email : email}).select("-password");
+
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching user profile' });
+  }
+};
+
+
+exports.editProfile = async(req,res) =>{
+  try{
+    const {email} = req.params;
+    const {fullname,phoneNumber} = req.body;
+    const photo = req.file ? `/uploads/${req.file.filename}` : req.body.photo;
+    const user = await User.findOne({email : email});
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    user.photo = photo;
+    user.fullname = fullname;
+    user.phoneNumber = phoneNumber;
+    await user.save();
+    res.status(200).json({ message: 'User updated successfully' });
+  }catch(err){
+    res.status(500).json({message : "Error editing profile"});
+  }
+}

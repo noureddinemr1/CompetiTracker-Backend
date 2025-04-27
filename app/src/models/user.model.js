@@ -6,7 +6,8 @@ const userSchema = new mongoose.Schema({
   fullname: { type: String },
   role: { type: String, default: 'None' },
   status: { type: String, default: 'Pending' },
-  image: { type: String },
+  photo: { type: String },
+  phoneNumber : {type : String},
 }, { timestamps: true }); 
 
 

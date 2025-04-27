@@ -4,24 +4,29 @@ const jwt = require('jsonwebtoken');
 const config = require("../config/auth.config")
 exports.signup = async (req, res) => {
   try {
-    const { email, fullname ,password} = req.body;
+    const { email, fullname, password } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Create a new user
     const user = new User({
       email,
       password: hashedPassword,
       fullname,
       role: 'None',
-      status:'Pending',
+      status: 'Pending',
     });
 
-    await user.save();
-    res.status(201).json({ message: 'User registered successfully. Awaiting admin approval.' });
+    await user.save(); // Save user to the database
+
+    // Return success message after user creation
+    res.status(200).json({ message: 'User registered successfully. Awaiting admin approval.' });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    // This error is for unexpected issues during the user creation
+    res.status(500).json({ message: 'Registration failed!' });
   }
 };
+
 
 
 exports.signin = async (req, res) => {
@@ -54,6 +59,7 @@ exports.signin = async (req, res) => {
       email: user.email,
       fullname: user.fullname,
       role: user.role,
+      status : user.status,
       token,
     });
   } catch (err) {
